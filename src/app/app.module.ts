@@ -42,9 +42,9 @@ import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-inte
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorProvider, multi: true }
   ]
 })
-export class AppModule {}
+export class AppModule { }
