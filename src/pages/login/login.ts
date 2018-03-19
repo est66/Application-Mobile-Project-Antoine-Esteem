@@ -5,6 +5,7 @@ import { NavController, NavParams } from 'ionic-angular';
 import { AuthRequest } from '../../models/auth-request';
 import { AuthProvider } from '../../providers/auth/auth';
 import { HomePage } from '../home/home';
+import { SignInPage } from '../sign-in/sign-in'
 
 /**
  * Login page.
@@ -60,5 +61,9 @@ export class LoginPage {
       this.loginError = true;
       console.warn(`Authentication failed: ${err.message}`);
     });
+  }
+
+  gotoSignIn() {
+    this.navCtrl.push(SignInPage);
   }
 }

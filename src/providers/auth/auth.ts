@@ -9,18 +9,20 @@ import { AuthRequest } from '../../models/auth-request';
 import { AuthResponse } from '../../models/auth-response';
 import { User } from '../../models/user';
 import { config } from '../../app/config';
+import { SignInRequest } from '../../models/signin-request';
+
 
 /**
  * Authentication service for login/logout.
  */
 @Injectable()
 export class AuthProvider {
-
   private auth$: Observable<AuthResponse>;
   private authSource: ReplaySubject<AuthResponse>;
 
-  constructor(private http: HttpClient, private storage: Storage) {
+  url: string = 'https://comem-appmob-2018d.herokuapp.com/api/issues';
 
+  constructor(private http: HttpClient, private storage: Storage) {
     this.authSource = new ReplaySubject(1);
     this.auth$ = this.authSource.asObservable();
 
@@ -33,7 +35,7 @@ export class AuthProvider {
     return this.auth$.pipe(map(auth => !!auth));
   }
 
-  getUser(): Observable<User> {
+  getAuthUser(): Observable<User> {
     return this.auth$.pipe(map(auth => auth ? auth.user : undefined));
   }
 
@@ -42,7 +44,6 @@ export class AuthProvider {
   }
 
   logIn(authRequest: AuthRequest): Observable<User> {
-
     const authUrl = `${config.apiUrl}/auth`;
     return this.http.post<AuthResponse>(authUrl, authRequest).pipe(
       delayWhen(auth => {
@@ -56,6 +57,11 @@ export class AuthProvider {
     );
   }
 
+  postNewUser(signinRequest : SignInRequest) {
+    return this.http
+    .post<User>(this.url, signinRequest).pipe();
+  }
+
   logOut() {
     this.authSource.next(null);
     this.storage.remove('auth');
@@ -65,5 +71,4 @@ export class AuthProvider {
   private saveAuth(auth: AuthResponse): Observable<void> {
     return Observable.fromPromise(this.storage.set('auth', auth));
   }
-
 }

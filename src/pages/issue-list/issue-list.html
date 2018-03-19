@@ -5,44 +5,33 @@
   Ionic pages and navigation.
 -->
 <ion-header>
-
-  <ion-navbar>
-    <ion-title>Issue List</ion-title>
-  </ion-navbar>
-
+    <ion-navbar>
+            <ion-title>Issue List</ion-title>
+    </ion-navbar>
+    <ion-toolbar>
+        <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
+    </ion-toolbar>
 </ion-header>
+
 <ion-content padding>
-    Let's list the issues.
+    <div *ngIf="searching" class="spinner-container">
+            <ion-spinner></ion-spinner>
+    </div>
+
     <ion-list>
-        <ion-item>
+        <ion-item *ngFor='let issue of filteredIssues'>
             <ion-thumbnail item-start>
-                <img src="https://orig00.deviantart.net/27ce/f/2010/111/4/5/wall_grafiti_by_mclili.jpg">
+                <img *ngIf="issue.imageUrl" src={{issue.imageUrl}}>
+                <img *ngIf="!issue.imageUrl" src="../../assets/imgs/Photo_non_disponible.png">
             </ion-thumbnail>
-            <h2>My Neighbor Totoro</h2>
-            <p>Hayao Miyazaki • 1988</p>
-            <button ion-button clear item-end>View</button>
-        </ion-item>
-    </ion-list>
-    <ion-list>
-        <ion-item>
-            <ion-thumbnail item-start>
-                <img src="https://orig00.deviantart.net/27ce/f/2010/111/4/5/wall_grafiti_by_mclili.jpg">
-            </ion-thumbnail>
-            <h2>My Neighbor Totoro</h2>
-            <p>Hayao Miyazaki • 1988</p>
-            <button ion-button clear item-end>View</button>
-        </ion-item>
-    </ion-list>
-    <ion-list>
-        <ion-item>
-            <ion-thumbnail item-start>
-                <img src="https://orig00.deviantart.net/27ce/f/2010/111/4/5/wall_grafiti_by_mclili.jpg">
-            </ion-thumbnail>
-            <h2>My Neighbor Totoro</h2>
-            <p>Hayao Miyazaki • 1988</p>
-            <button ion-button clear item-end>View</button>
+            <h2>{{issue.description}}</h2>
+            <p>{{ issue.creator.firstname}}</p>
+            <p>{{issue.createdAt | date}}</p>
+            <button ion-button clear item-end (click)='goToDetails(issue)'>View</button>
         </ion-item>
     </ion-list>
 
-
+    <ion-infinite-scroll (ionInfinite)="doInfinite($event)" *ngIf="page < totalPage">
+        <ion-infinite-scroll-content loadingSpinner="crescent" loadingText="Loading more issues..."></ion-infinite-scroll-content>
+    </ion-infinite-scroll>
 </ion-content>

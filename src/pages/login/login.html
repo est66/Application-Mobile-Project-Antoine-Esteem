@@ -16,7 +16,6 @@
 <ion-content padding>
   <form (submit)="onSubmit($event)">
     <ion-list>
-
       <!-- Name input -->
       <ion-item>
         <ion-label floating>Name</ion-label>
@@ -49,6 +48,10 @@
       <!-- Error message displayed if the login failed -->
       <p *ngIf="loginError" ion-text color="danger">Name or password is invalid.</p>
 
+      
     </div>
   </form>
+
+  <button  ion-button round color="light" block (click)='gotoSignIn()' >sign In</button>
+  
 </ion-content>

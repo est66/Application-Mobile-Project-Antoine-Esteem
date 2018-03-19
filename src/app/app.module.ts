@@ -5,15 +5,27 @@ import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { IonicStorageModule } from '@ionic/storage';
+import { Geolocation } from '@ionic-native/geolocation';
+import { LeafletModule } from '@asymmetrik/ngx-leaflet';
+import { Camera } from '@ionic-native/camera';
+import { CommonModule } from '@angular/common';
 
 import { MyApp } from './app.component';
+
+//Import pages
 import { HomePage } from '../pages/home/home';
 import { CreateIssuePage } from '../pages/create-issue/create-issue';
 import { IssueListPage } from '../pages/issue-list/issue-list';
 import { IssueMapPage } from '../pages/issue-map/issue-map';
 import { LoginPage } from '../pages/login/login';
 import { AuthProvider } from '../providers/auth/auth';
+import { DetailsPage } from '../pages/details/details';
+import { SignInPage } from '../pages/sign-in/sign-in';
+
 import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-interceptor';
+import { IssuesProvider } from '../providers/issues/issues.provider';
+
+import { ProfilePage } from '../pages/profile/profile';
 
 @NgModule({
   declarations: [
@@ -22,13 +34,18 @@ import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-inte
     CreateIssuePage,
     IssueListPage,
     IssueMapPage,
-    LoginPage
+    LoginPage,
+    DetailsPage,
+    ProfilePage,
+    SignInPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
     HttpClientModule,
-    IonicStorageModule.forRoot()
+    CommonModule,
+    IonicStorageModule.forRoot(),
+    LeafletModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -37,14 +54,20 @@ import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-inte
     CreateIssuePage,
     IssueListPage,
     IssueMapPage,
-    LoginPage
+    LoginPage,
+    DetailsPage,
+    ProfilePage,
+    SignInPage
   ],
   providers: [
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
     AuthProvider,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorProvider, multi: true }
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorProvider, multi: true },
+    IssuesProvider,
+    Geolocation,
+    Camera
   ]
 })
 export class AppModule { }
