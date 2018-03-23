@@ -3,5 +3,6 @@ export class SignInRequest {
     lastname:string;
     name:string;
     password:string;
+    phone:string;
     roles: string[];
 }

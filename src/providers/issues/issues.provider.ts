@@ -6,7 +6,7 @@ import 'rxjs/add/observable/of';
 import { Issue } from '../../models/issue';
 import { config } from '../../app/config';
 
-import {CommentRequest} from '../../models/comment-request';
+import { CommentRequest } from '../../models/comment-request';
 
 
 /*
@@ -19,6 +19,7 @@ import {CommentRequest} from '../../models/comment-request';
 export class IssuesProvider {
   url: string = 'https://comem-appmob-2018d.herokuapp.com/api/issues';
   issue: Issue;
+  
   constructor(public httpClient: HttpClient) {
     console.log('Hello IssuesProvider Provider');
   }
@@ -33,7 +34,6 @@ export class IssuesProvider {
       .get<Issue[]>(this.url+'?include=creator&include=issueType&page='+page+'&pageSize=20').pipe();
   }
 
-  
   getIssue(id:string): Observable<Issue> {
     return this.httpClient
     .get<Issue>(this.url+'/'+id).pipe();

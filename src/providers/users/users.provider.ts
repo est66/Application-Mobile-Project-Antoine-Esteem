@@ -5,8 +5,10 @@ import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/observable/of';
 
 import { User } from '../../models/user';
-import { IssuesProvider } from '../issues/issues.provider';
 import { Issue } from '../../models/issue';
+
+import { IssuesProvider } from '../issues/issues.provider';
+
 
 /*
   Generated class for the IssuesProvider provider.
@@ -16,14 +18,16 @@ import { Issue } from '../../models/issue';
 */
 @Injectable()
 export class UsersProvider {
+  user: User;
+  url: string = 'https://comem-appmob-2018d.herokuapp.com/api/users';
   
   constructor(public httpClient: HttpClient) {
-    console.log('Hello IssuesProvider Provider');
+    console.log('Hello UserProvider Provider');
   }
 
   getUsers(): Observable<User[]> {
     return this.httpClient
-      .get<User[]>('https://comem-appmob-2018d.herokuapp.com/api/users').pipe();
+      .get<User[]>(this.url).pipe();
   }
 
   getUserfromIssue(issue: Issue): Observable<User> {

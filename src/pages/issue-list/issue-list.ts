@@ -50,9 +50,7 @@ export class IssueListPage {
 
   //on page loading
   ionViewDidLoad() {
-
     this.setFilteredIssues();
-
     this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
       this.searching = false;
       this.setFilteredIssues();

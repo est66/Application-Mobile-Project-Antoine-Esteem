@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { NavController, NavParams } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
@@ -11,9 +11,12 @@ import { SignInRequest } from '../../models/signin-request';
 
 //providers
 import { AuthProvider } from '../../providers/auth/auth';
-
+import { UsersProvider } from '../../providers/users/users.provider';
 
 import { config } from '../../app/config';
+import { NgForm } from '@angular/forms';
+
+
 
 
 
@@ -30,34 +33,62 @@ import { config } from '../../app/config';
   templateUrl: 'sign-in.html',
 })
 export class SignInPage {
-  SignInRequest: SignInRequest;
+  signInRequest: SignInRequest;
   users : User[];
   constructor(
     private auth: AuthProvider, 
     public navCtrl: NavController, 
+    private userProvider: UsersProvider,
     public navParams: NavParams,
     public toastCtrl: ToastController, ) {
-    this.SignInRequest = new SignInRequest();
+    this.signInRequest = new SignInRequest();
+    this.signInRequest.roles = ['citizen'];
   }
+
+  @ViewChild(NgForm)
+  form: NgForm;
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignInPage');
+    this.loadUsers();
+    console.log(this.users);
   }
 
-  createUser() {
-    this.auth.postNewUser(this.SignInRequest).subscribe(user => {
-      this.users.push(user);
+  loadUsers() {
+    this.userProvider.getUsers().subscribe((users) =>  {
+    this.users = users;
+    })
+  }
+  createUser($event) {
+    
+    $event.preventDefault();
+
+    console.log(this.signInRequest);
+    $event.preventDefault();
+
+    this.auth.postNewUser(this.signInRequest).subscribe(user => {
+      let userRequest = {
+        name : user.name,
+        password : this.signInRequest.password
+      }
+      console.log(userRequest)
+      this.auth.logIn(userRequest).subscribe(user => {
+        console.log(user);
+      }, err => {
+        console.log(err);
+        
+      });
+      this.showToast('top');
     });
-    this.showToast('top');
+    
   }
 
   showToast(position: string) {
     let toast = this.toastCtrl.create({
-      message: 'Comment added !',
+      message: 'Welcome to the app !',
       duration: 2000,
       position: position
     });
     toast.present(toast);
   }
-
 }

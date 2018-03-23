@@ -1,6 +1,6 @@
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
-import { ErrorHandler, NgModule } from '@angular/core';
+import { ErrorHandler, NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -9,6 +9,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 import { LeafletModule } from '@asymmetrik/ngx-leaflet';
 import { Camera } from '@ionic-native/camera';
 import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 import { MyApp } from './app.component';
 
@@ -26,6 +27,7 @@ import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-inte
 import { IssuesProvider } from '../providers/issues/issues.provider';
 
 import { ProfilePage } from '../pages/profile/profile';
+import { UsersProvider } from '../providers/users/users.provider';
 
 @NgModule({
   declarations: [
@@ -37,7 +39,7 @@ import { ProfilePage } from '../pages/profile/profile';
     LoginPage,
     DetailsPage,
     ProfilePage,
-    SignInPage
+    SignInPage,
   ],
   imports: [
     BrowserModule,
@@ -45,7 +47,8 @@ import { ProfilePage } from '../pages/profile/profile';
     HttpClientModule,
     CommonModule,
     IonicStorageModule.forRoot(),
-    LeafletModule.forRoot()
+    LeafletModule.forRoot(),
+    FormsModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -67,7 +70,11 @@ import { ProfilePage } from '../pages/profile/profile';
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorProvider, multi: true },
     IssuesProvider,
     Geolocation,
-    Camera
+    Camera,
+    UsersProvider
+  ],
+  schemas: [ 
+    CUSTOM_ELEMENTS_SCHEMA 
   ]
 })
 export class AppModule { }

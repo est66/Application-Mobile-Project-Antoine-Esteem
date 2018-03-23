@@ -9,6 +9,7 @@ import { AuthRequest } from '../../models/auth-request';
 import { AuthResponse } from '../../models/auth-response';
 import { User } from '../../models/user';
 import { config } from '../../app/config';
+
 import { SignInRequest } from '../../models/signin-request';
 
 
@@ -20,7 +21,7 @@ export class AuthProvider {
   private auth$: Observable<AuthResponse>;
   private authSource: ReplaySubject<AuthResponse>;
 
-  url: string = 'https://comem-appmob-2018d.herokuapp.com/api/issues';
+  url: string = 'https://comem-appmob-2018d.herokuapp.com/api/users';
 
   constructor(private http: HttpClient, private storage: Storage) {
     this.authSource = new ReplaySubject(1);
@@ -57,9 +58,10 @@ export class AuthProvider {
     );
   }
 
-  postNewUser(signinRequest : SignInRequest) {
+  postNewUser(signinRequest : SignInRequest) : Observable<User> {
+    const userUrl = `${config.apiUrl}/users`;
     return this.http
-    .post<User>(this.url, signinRequest).pipe();
+      .post<User>(userUrl, signinRequest).pipe();
   }
 
   logOut() {

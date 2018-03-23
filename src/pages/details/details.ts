@@ -1,11 +1,14 @@
 import { Component, ViewChild } from '@angular/core';
+import { NgForm } from '@angular/forms';
+
 import { NavController, NavParams } from 'ionic-angular';
 import { ToastController } from 'ionic-angular';
 
 import { Issue } from '../../models/issue';
 import { IssuesProvider } from '../../providers/issues/issues.provider';
-import { NgForm } from '@angular/forms';
+
 import { CommentRequest } from '../../models/comment-request';
+import { IssueListPage } from '../issue-list/issue-list';
 /**
  * Generated class for the DetailsPage page.
  *
@@ -25,6 +28,7 @@ export class DetailsPage {
   commentRequest: CommentRequest;
   commentNumber:number;
   idIssue: string;
+  loginError: boolean;
 
   @ViewChild(NgForm)
   form: NgForm;
@@ -33,7 +37,8 @@ export class DetailsPage {
     public navCtrl: NavController,
     public toastCtrl: ToastController, 
     public navParams: NavParams,
-    private issueProvider: IssuesProvider ) {
+    private issueProvider: IssuesProvider,
+  ) {
       this.commentRequest = new CommentRequest();
       console.log(navCtrl);
       
@@ -45,9 +50,19 @@ export class DetailsPage {
     this.loadComments(this.issue.id);
   }
 
-  createComment(id:string) {
+  createComment(id:string, $event) {
+
+    // Prevent default HTML form behavior.
+    $event.preventDefault();
+
+    // Do not do anything if the form is invalid.
+    if (this.form.invalid) {
+      return;
+    }
+
     this.issueProvider.postIssueComment(this.commentRequest, id).subscribe(comment => {
       this.comments.push(comment);
+      this.goToIssueListPage();
     });
     this.showToast('top');
   }
@@ -79,6 +94,11 @@ export class DetailsPage {
       position: position
     });
     toast.present(toast);
+  }
+
+  goToIssueListPage() {
+    console.log("go to Issueslist");
+    this.navCtrl.push(IssueListPage);
   }
 
 }

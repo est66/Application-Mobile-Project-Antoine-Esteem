@@ -43,12 +43,18 @@
             </p>
         </ion-item>
     </ion-list>
-    <form (ngSubmit)="createComment(issue.id)">
+
+    <form (ngSubmit)="createComment(issue.id, $event)">
         <ion-item>
           <ion-label>Your comment : </ion-label>
-          <ion-input type="text" [(ngModel)]="commentRequest.text" name="text" required></ion-input>
+          <ion-input type="text" #commentInput="ngModel" [(ngModel)]="commentRequest.text" name="text" required></ion-input>
         </ion-item>
-        <button ion-button type="submit" block>Add comment</button>
+
+        <ion-item *ngIf="commentInput.invalid && commentInput.dirty" no-lines>
+          <p ion-text color="danger">Comment is required.</p>
+        </ion-item>
+
+        <button ion-button type="submit" [disabled]="commentInput.invalid" block>Add comment</button>
     </form>
   </ion-card>
 </ion-content>
