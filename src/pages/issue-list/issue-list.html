@@ -14,11 +14,11 @@
 </ion-header>
 
 <ion-content padding>
-    <div *ngIf="searching" class="spinner-container">
+    <div *ngIf="searching||!filteredIssues" class="spinner-container">
             <ion-spinner></ion-spinner>
     </div>
 
-    <ion-list>
+    <ion-list *ngIf='filteredIssues'>
         <ion-item *ngFor='let issue of filteredIssues'>
             <ion-thumbnail item-start>
                 <img *ngIf="issue.imageUrl" src={{issue.imageUrl}}>

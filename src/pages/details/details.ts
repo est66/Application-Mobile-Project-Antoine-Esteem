@@ -39,13 +39,13 @@ export class DetailsPage {
     public navParams: NavParams,
     private issueProvider: IssuesProvider,
   ) {
+      this.issue = this.navParams.data;
       this.commentRequest = new CommentRequest();
       console.log(navCtrl);
   }
 
-  ionViewDidLoad() {
+  ionViewWillEnter() {
     console.log('ionViewDidLoad DetailsPage');
-    this.issue = this.navParams.data;
     this.loadComments(this.issue.id);
   }
 
@@ -61,9 +61,10 @@ export class DetailsPage {
 
     this.issueProvider.postIssueComment(this.commentRequest, id).subscribe(comment => {
       this.comments.push(comment);
-      this.goToIssueListPage();
+      this.showToast('top');
+      this.goToDetails();
     });
-    this.showToast('top');
+    
   }
 
   showComments(id:string) {
@@ -94,9 +95,9 @@ export class DetailsPage {
     toast.present(toast);
   }
 
-  goToIssueListPage() {
+  goToDetails() {
     console.log("go to Issueslist");
-    this.navCtrl.push(IssueListPage);
+    this.navCtrl.push(DetailsPage, this.issue);
   }
 
 }
