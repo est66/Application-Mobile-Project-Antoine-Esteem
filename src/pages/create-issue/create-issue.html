@@ -20,32 +20,33 @@
 
 
 <ion-content padding>
-  Let's create an issue.
-  <form (submit)="onSubmit($event)">
+  <form (submit)="createIssue($event)" #issueForm="ngForm">
     <ion-list>
       <ion-item>
         <ion-label>Issue Type</ion-label>
-        <ion-select>
-          <ion-option value="dangerous-road">Accidents are likely</ion-option>
-          <ion-option value="graffiti">Youngsters are evil</ion-option>
-          <ion-option value="broken-streetlight">Area is badly lit</ion-option>
+        <ion-select name="issueTypeHref" [(ngModel)]="'/api/issueTypes/'+issuerequest.issueTypeHref">
+          <ion-option *ngFor='let issuetype of issuetypes' value="{{issuetype.id}}">{{issuetype.description}}</ion-option>
         </ion-select>
       </ion-item>
+ 
       <ion-item>
-        <ion-label stacked>Type</ion-label>
-        <ion-input type="text"></ion-input>
+        <ion-label >Description</ion-label>
+        <ion-input type="text" name="description" #descInput="ngModel" [(ngModel)]="issuerequest.description" required></ion-input>
       </ion-item>
-    
+      <!-- Error message displayed if the name is invalid -->
+      <ion-item *ngIf="descInput.invalid && descInput.dirty" no-lines>
+        <p ion-text color="danger">Description is required.</p>
+      </ion-item>
       <ion-item>
-        <ion-label stacked>Description</ion-label>
-        <ion-input type="text"></ion-input>
+        <button ion-button (click)='takePicture()'>prendre une photo</button>
+        <img *ngIf='pictureData' src='data:image/jpeg;base64,{{ pictureData }}' />
       </ion-item>
-    
+      
     </ion-list>
-
+    <button ion-button type="submit" [disabled]="issueForm.invalid" block>Report Issue</button>
   </form>
   
-  <button ion-button (click)='takePicture()'>Button</button>
-  <img *ngIf='pictureData' src='data:image/jpeg;base64,{{ pictureData }}' />
+  
+
 
 </ion-content>

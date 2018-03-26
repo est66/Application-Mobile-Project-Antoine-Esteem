@@ -89,7 +89,7 @@ export class IssueMapPage {
         this.countIssues++;
         let long = issue.location.coordinates[0];
         let lat = issue.location.coordinates[1];
-        this.mapMarkers.push(marker([lat, long]).bindPopup("<button ion-button clear item-end (click)='goToDetails(issue)'>View</button>").openPopup());
+        this.mapMarkers.push(marker([lat, long]).bindPopup(issue.description));
       }
       console.log(this.countIssues+' issues found')
   } 

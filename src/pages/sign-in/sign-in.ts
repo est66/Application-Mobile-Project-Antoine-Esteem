@@ -35,6 +35,7 @@ import { NgForm } from '@angular/forms';
 export class SignInPage {
   signInRequest: SignInRequest;
   users : User[];
+
   constructor(
     private auth: AuthProvider, 
     public navCtrl: NavController, 
@@ -50,15 +51,8 @@ export class SignInPage {
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad SignInPage');
-    this.loadUsers();
-    console.log(this.users);
   }
 
-  loadUsers() {
-    this.userProvider.getUsers().subscribe((users) =>  {
-    this.users = users;
-    })
-  }
   createUser($event) {
     
     $event.preventDefault();

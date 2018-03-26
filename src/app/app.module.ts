@@ -28,6 +28,7 @@ import { IssuesProvider } from '../providers/issues/issues.provider';
 
 import { ProfilePage } from '../pages/profile/profile';
 import { UsersProvider } from '../providers/users/users.provider';
+import { PictureProvider } from '../providers/picture/picture';
 
 @NgModule({
   declarations: [
@@ -71,7 +72,8 @@ import { UsersProvider } from '../providers/users/users.provider';
     IssuesProvider,
     Geolocation,
     Camera,
-    UsersProvider
+    UsersProvider,
+    PictureProvider
   ],
   schemas: [ 
     CUSTOM_ELEMENTS_SCHEMA 

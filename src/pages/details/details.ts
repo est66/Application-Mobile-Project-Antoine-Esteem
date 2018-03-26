@@ -41,7 +41,6 @@ export class DetailsPage {
   ) {
       this.commentRequest = new CommentRequest();
       console.log(navCtrl);
-      
   }
 
   ionViewDidLoad() {
@@ -83,7 +82,6 @@ export class DetailsPage {
     this.issueProvider.getIssueComment(id).subscribe((comments) =>  {
     this.comments = comments;
     this.commentNumber = comments.length;
-    console.log(comments);
     })
   } 
 

@@ -7,6 +7,8 @@ import { Issue } from '../../models/issue';
 import { config } from '../../app/config';
 
 import { CommentRequest } from '../../models/comment-request';
+import { issueType } from '../../models/issueType';
+import { IssueRequest } from '../../models/issue-request';
 
 
 /*
@@ -17,8 +19,9 @@ import { CommentRequest } from '../../models/comment-request';
 */
 @Injectable()
 export class IssuesProvider {
-  url: string = 'https://comem-appmob-2018d.herokuapp.com/api/issues';
+  url: string = 'https://comem-appmob-2018d.herokuapp.com/api';
   issue: Issue;
+  issuetype : issueType;
   
   constructor(public httpClient: HttpClient) {
     console.log('Hello IssuesProvider Provider');
@@ -31,28 +34,31 @@ export class IssuesProvider {
 
   getIssues(page): Observable<Issue[]> {
     return this.httpClient
-      .get<Issue[]>(this.url+'?include=creator&include=issueType&page='+page+'&pageSize=20').pipe();
+      .get<Issue[]>(this.url+'/issues?include=creator&include=issueType&page='+page+'&pageSize=20').pipe();
+  } 
+
+  getIssueTypes() : Observable<issueType[]> {
+    return this.httpClient
+    .get<issueType[]>(this.url+'/issueTypes').pipe();
   }
 
   getIssue(id:string): Observable<Issue> {
     return this.httpClient
-    .get<Issue>(this.url+'/'+id).pipe();
+    .get<Issue>(this.url+'/issues/'+id).pipe();
+  }
+
+  postNewIssue(issuerequest:IssueRequest) : Observable<Issue> {
+    console.log("posting...."+issuerequest);
+    return this.httpClient.post<Issue>(this.url+'/issues', issuerequest).pipe();
   }
 
   getIssueComment(idIssue:string) : Observable<Comment[]> {
     return this.httpClient
-    .get<Comment[]>(this.url+'/'+idIssue+'/comments?include=author').pipe();
+    .get<Comment[]>(this.url+'/issues/'+idIssue+'/comments?include=author').pipe();
   }
 
   postIssueComment(commentRequest : CommentRequest, idIssue : string): Observable<Comment> {
     return this.httpClient
-    .post<Comment>(this.url+'/'+idIssue+'/comments', commentRequest).pipe();
+    .post<Comment>(this.url+'/issues/'+idIssue+'/comments', commentRequest).pipe();
   }
-
-  addIssue(issue:Issue) {
-    const issuesUrl = `${config.apiUrl}/issues/`;
-    return this.httpClient.post<Issue>(issuesUrl, issue).pipe();
-  }
-
-  
 }

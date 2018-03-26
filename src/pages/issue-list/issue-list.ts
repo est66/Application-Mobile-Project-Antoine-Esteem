@@ -37,7 +37,7 @@ export class IssueListPage {
     public navCtrl: NavController, 
     public navParams: NavParams, 
     private issueProvider: IssuesProvider) {
-      this.loadIssues();
+      
       this.searchControl = new FormControl();
   }
   //initial load
@@ -49,7 +49,8 @@ export class IssueListPage {
   }
 
   //on page loading
-  ionViewDidLoad() {
+  ionViewWillEnter() {
+    this.loadIssues();
     this.setFilteredIssues();
     this.searchControl.valueChanges.debounceTime(700).subscribe(search => {
       this.searching = false;
