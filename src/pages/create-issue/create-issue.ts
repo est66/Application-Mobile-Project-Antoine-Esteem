@@ -75,8 +75,11 @@ export class CreateIssuePage {
   takePicture() {
     this.pictureService.takeAndUploadPicture().subscribe(picture => {
       this.picture = picture;
+      this.issuerequest.imageUrl =  this.picture.url;
+      this.showToastpicture('top', this.issuerequest.imageUrl);
     }, err => {
       console.warn('Could not take picture', err);
+      this.showToastpicture('top', err);
     });
   }
     
@@ -85,11 +88,11 @@ export class CreateIssuePage {
   }
 
   loadIssuetypes() {
-    this.issueProvider.getIssueTypes().subscribe((issuetypes) =>  {
-    this.issuetypes = issuetypes;
-    console.log(issuetypes);
-  })
-}
+      this.issueProvider.getIssueTypes().subscribe((issuetypes) =>  {
+      this.issuetypes = issuetypes;
+      console.log(issuetypes);
+    })
+  }
   createIssue($event) {
 
     $event.preventDefault();
@@ -109,9 +112,10 @@ export class CreateIssuePage {
 
     console.log(this.issuerequest);
 
-    this.issueProvider.postNewIssue(this.issuerequest).subscribe(err => {
+    this.issueProvider.postNewIssue(this.issuerequest).subscribe(undefined => {
       console.log("issue posted !! ");
       this.showToast('top');
+      this.form.reset();
       this.navCtrl.push(IssueListPage);
     });
   }
@@ -124,4 +128,15 @@ export class CreateIssuePage {
     });
     toast.present(toast);
   }
+
+  showToastpicture(position: string, urlpicture : string) {
+    let toast = this.toastCtrl.create({
+      message: 'picture added !'+ urlpicture,
+      duration: 10000,
+      position: position
+    });
+    toast.present(toast);
+  }
+
+
 }

@@ -24,7 +24,7 @@
     <ion-list>
       <ion-item>
         <ion-label>Issue Type</ion-label>
-        <ion-select name="issueTypeHref" [(ngModel)]="'/api/issueTypes/'+issuerequest.issueTypeHref">
+        <ion-select name="issueTypeHref" [(ngModel)]="issuerequest.issueTypeHref">
           <ion-option *ngFor='let issuetype of issuetypes' value="{{issuetype.id}}">{{issuetype.description}}</ion-option>
         </ion-select>
       </ion-item>
@@ -38,15 +38,11 @@
         <p ion-text color="danger">Description is required.</p>
       </ion-item>
       <ion-item>
-        <button ion-button (click)='takePicture()'>prendre une photo</button>
-        <img *ngIf='pictureData' src='data:image/jpeg;base64,{{ pictureData }}' />
+        <button ion-button type="button" (click)='takePicture()'>Take picture</button>
+        
+        <img *ngIf='picture' [src]='picture.url' />
       </ion-item>
-      
     </ion-list>
-    <button ion-button type="submit" [disabled]="issueForm.invalid" block>Report Issue</button>
+    <button ion-button type="submit" [disabled]="issueForm.invalid" (click)='createIssue($event)' block>Report Issue</button>
   </form>
-  
-  
-
-
 </ion-content>

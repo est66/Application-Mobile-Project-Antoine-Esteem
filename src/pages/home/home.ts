@@ -25,8 +25,7 @@ export class HomePage {
     this.tabs = [
       { title: 'Issue List', icon: 'list', component: IssueListPage },
       { title: 'Issue Map', icon: 'map', component: IssueMapPage },
-      { title: 'New Issue', icon: 'add', component: CreateIssuePage },
-      { title: 'My profile', icon: 'contact', component: ProfilePage }
+      { title: 'New Issue', icon: 'add', component: CreateIssuePage }
     ];
   }
 
