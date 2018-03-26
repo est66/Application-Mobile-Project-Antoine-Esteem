@@ -35,12 +35,15 @@
     </ion-card-content>
     <ion-list *ngIf='show'>
         <ion-item *ngFor='let comment of comments'>
-            <h2>
+            <ion-avatar item-start>
+                <img src="../../assets/imgs/user.png">
+            </ion-avatar>
+            <h3>
                 {{comment.author.firstname}} {{comment.author.lastname}}
-            </h2>
-            <p>
-                {{comment.text}}
-            </p>
+            </h3>
+            <p>{{comment.text}}</p>
+            <ion-note item-end>{{comment.createdAt | date:'short'}}</ion-note>
+                
         </ion-item>
     </ion-list>
 
