@@ -23,12 +23,14 @@ import { AuthProvider } from '../providers/auth/auth';
 import { DetailsPage } from '../pages/details/details';
 import { SignInPage } from '../pages/sign-in/sign-in';
 
+
 import { AuthInterceptorProvider } from '../providers/auth-interceptor/auth-interceptor';
 import { IssuesProvider } from '../providers/issues/issues.provider';
 
 import { ProfilePage } from '../pages/profile/profile';
 import { UsersProvider } from '../providers/users/users.provider';
 import { PictureProvider } from '../providers/picture/picture';
+import { TutorialPage } from '../pages/tutorial/tutorial';
 
 @NgModule({
   declarations: [
@@ -41,6 +43,7 @@ import { PictureProvider } from '../providers/picture/picture';
     DetailsPage,
     ProfilePage,
     SignInPage,
+    TutorialPage
   ],
   imports: [
     BrowserModule,
@@ -61,7 +64,8 @@ import { PictureProvider } from '../providers/picture/picture';
     LoginPage,
     DetailsPage,
     ProfilePage,
-    SignInPage
+    SignInPage,
+    TutorialPage
   ],
   providers: [
     StatusBar,
@@ -75,8 +79,8 @@ import { PictureProvider } from '../providers/picture/picture';
     UsersProvider,
     PictureProvider
   ],
-  schemas: [ 
-    CUSTOM_ELEMENTS_SCHEMA 
+  schemas: [
+    CUSTOM_ELEMENTS_SCHEMA
   ]
 })
 export class AppModule { }

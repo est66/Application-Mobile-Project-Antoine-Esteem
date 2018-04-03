@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavController, NavParams, PopoverController } from 'ionic-angular';
 import { Observable } from 'rxjs/Rx';
 import { Issue } from '../../models/issue';
 import { App, MenuController } from 'ionic-angular';
@@ -7,11 +7,13 @@ import { IssuesProvider } from '../../providers/issues/issues.provider';
 import { FormControl } from '@angular/forms';
 
 import { DetailsPage } from '../details/details';
+import { TutorialPage } from '../tutorial/tutorial';
 import 'rxjs/add/operator/debounceTime';
 
 //providers
 import { AuthProvider } from '../../providers/auth/auth';
 import { UsersProvider } from '../../providers/users/users.provider';
+
 
 /**
  * Generated class for the IssueListPage page.
@@ -40,7 +42,8 @@ export class IssueListPage {
     public navCtrl: NavController,
     public navParams: NavParams,
     private issueProvider: IssuesProvider,
-    private userProvider: UsersProvider) {
+    private userProvider: UsersProvider,
+    public popoverCtrl: PopoverController) {
     this.searchControl = new FormControl();
     console.log(this.userProvider.getUsers())
   }
@@ -99,5 +102,10 @@ export class IssueListPage {
     console.log("go to details")
     console.log(issue);
     this.navCtrl.push(DetailsPage, issue);
+  }
+
+  goTutorial(event) {
+    let popover = this.popoverCtrl.create(TutorialPage);
+    popover.present();
   }
 }

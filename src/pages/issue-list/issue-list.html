@@ -6,7 +6,7 @@
 -->
 <ion-header>
     <ion-navbar>
-            <ion-title>Issue List</ion-title>
+        <ion-title>Issue List</ion-title>
     </ion-navbar>
     <ion-toolbar>
         <ion-searchbar [(ngModel)]="searchTerm" [formControl]="searchControl" (ionInput)="onSearchInput()"></ion-searchbar>
@@ -14,8 +14,11 @@
 </ion-header>
 
 <ion-content padding>
+    <ion-fab right bottom>
+        <button ion-fab color="light" (click)="goTutorial($event)"><ion-icon name="help-circle"></ion-icon></button>
+    </ion-fab>
     <div *ngIf="searching||!filteredIssues" class="spinner-container">
-            <ion-spinner></ion-spinner>
+        <ion-spinner></ion-spinner>
     </div>
 
     <ion-list *ngIf='filteredIssues'>
