@@ -76,10 +76,10 @@ export class CreateIssuePage {
     this.pictureService.takeAndUploadPicture().subscribe(picture => {
       this.picture = picture;
       this.issuerequest.imageUrl =  this.picture.url;
-      this.showToastpicture('top', this.issuerequest.imageUrl);
+      this.showToastpictureadded('top', this.issuerequest.imageUrl);
     }, err => {
       console.warn('Could not take picture', err);
-      this.showToastpicture('top', err);
+      this.showToastpictureerror('top', err);
     });
   }
     
@@ -129,9 +129,18 @@ export class CreateIssuePage {
     toast.present(toast);
   }
 
-  showToastpicture(position: string, urlpicture : string) {
+  showToastpictureadded(position: string, urlpicture : string) {
     let toast = this.toastCtrl.create({
       message: 'picture added !'+ urlpicture,
+      duration: 10000,
+      position: position
+    });
+    toast.present(toast);
+  }
+
+  showToastpictureerror(position: string, urlpicture : string) {
+    let toast = this.toastCtrl.create({
+      message: 'picture upload failed !..',
       duration: 10000,
       position: position
     });
