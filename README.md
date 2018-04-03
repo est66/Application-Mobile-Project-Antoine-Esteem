@@ -16,7 +16,7 @@ ionic serve
 Once the application is running, you can run it on your mobile with the inonic dev app that you can download here https://ionicframework.com/docs/pro/devapp/
 
 
-### fonctionnalities
+### Fonctionnalities
 
 The application allows you to sign in and sign up tu the app with the first button that you see when you launch it.
 
