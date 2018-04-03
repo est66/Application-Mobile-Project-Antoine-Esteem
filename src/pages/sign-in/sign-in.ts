@@ -34,11 +34,11 @@ import { NgForm } from '@angular/forms';
 })
 export class SignInPage {
   signInRequest: SignInRequest;
-  users : User[];
+  users: User[];
 
   constructor(
-    private auth: AuthProvider, 
-    public navCtrl: NavController, 
+    private auth: AuthProvider,
+    public navCtrl: NavController,
     private userProvider: UsersProvider,
     public navParams: NavParams,
     public toastCtrl: ToastController, ) {
@@ -54,7 +54,7 @@ export class SignInPage {
   }
 
   createUser($event) {
-    
+
     $event.preventDefault();
 
     console.log(this.signInRequest);
@@ -62,19 +62,20 @@ export class SignInPage {
 
     this.auth.postNewUser(this.signInRequest).subscribe(user => {
       let userRequest = {
-        name : user.name,
-        password : this.signInRequest.password
+        name: user.name,
+        password: this.signInRequest.password
       }
       console.log(userRequest)
       this.auth.logIn(userRequest).subscribe(user => {
         console.log(user);
       }, err => {
         console.log(err);
-        
+        alert(err.message)
+
       });
       this.showToast('top');
     });
-    
+
   }
 
   showToast(position: string) {

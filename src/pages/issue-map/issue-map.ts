@@ -21,10 +21,10 @@ import { DetailsPage } from '../details/details';
 })
 export class IssueMapPage {
   issues: Issue[];
-  countIssues : number = 0;
+  countIssues: number = 0;
   mapOptions: MapOptions;
   mapMarkers: Marker[];
-  map: Map; 
+  map: Map;
 
   page = 1;
   perPage = 0;
@@ -32,8 +32,8 @@ export class IssueMapPage {
   totalPage = 7;
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
+    public navCtrl: NavController,
+    public navParams: NavParams,
     private geolocation: Geolocation,
     private issueProvider: IssuesProvider
   ) {
@@ -47,7 +47,7 @@ export class IssueMapPage {
       center: latLng(46.778186, 6.641524)
     };
     this.mapMarkers = [
-      marker([ 46.778186, 6.641524 ]).bindTooltip('Hello')
+      marker([46.778186, 6.641524]).bindTooltip('Hello')
     ];
   }
 
@@ -58,7 +58,7 @@ export class IssueMapPage {
       const coords = position.coords;
       let latitude = coords.latitude;
       let longitude = coords.longitude;
-      
+
       this.map.setView(latLng(latitude, longitude), 13);
       this.mapMarkers.push(marker([latitude, longitude]));
 
@@ -68,8 +68,8 @@ export class IssueMapPage {
     });
 
     // add marker issues 
-    for(let i=1; i<this.totalPage-1; i++) {
-      this.issueProvider.getIssues(i).subscribe((issues) =>  {
+    for (let i = 1; i < this.totalPage - 1; i++) {
+      this.issueProvider.getIssues(i).subscribe((issues) => {
         this.issues = issues;
         this.fillMarkerArray(this.issues);
       })
@@ -85,22 +85,39 @@ export class IssueMapPage {
 
   fillMarkerArray(issues: Issue[]) {
     console.log(issues);
-    for(let issue of issues) {
-        this.countIssues++;
-        let long = issue.location.coordinates[0];
-        let lat = issue.location.coordinates[1];
-        this.mapMarkers.push(marker([lat, long]).bindPopup(issue.description));
+    for (let issue of issues) {
+      this.countIssues++;
+      let long = issue.location.coordinates[0];
+      let lat = issue.location.coordinates[1];
+      let issueDate = issue.createdAt;
+      let convertedDate = new Date(issueDate);
+      let stateColor = "black";
+      let issueImage = "../../assets/imgs/Photo_non_disponible.png";
+      if (issue.imageUrl) issueImage = issue.imageUrl;
+      switch (issue.state) {
+        case "new":
+          stateColor = "green";
+          break;
+        case "rejected":
+          stateColor = "red";
+          break;
+        case "resolved":
+          stateColor = "grey";
+          break;
+        default:
       }
-      console.log(this.countIssues+' issues found')
-  } 
+      this.mapMarkers.push(marker([lat, long]).bindPopup(`Autor : ${issue.creator.firstname}</br><strong style="color:${stateColor}">${issue.state}</strong></br><img src=${issueImage}></br>${convertedDate.toLocaleDateString()}</br><p>${issue.description}</p>`));
+    }
+    console.log(this.countIssues + ' issues found')
+  }
 
-  goToDetails(issue:Issue) {
+  goToDetails(issue: Issue) {
     console.log("go to details")
     console.log(issue);
     this.navCtrl.push(DetailsPage, issue);
   }
 
-  
+
 
 
 }

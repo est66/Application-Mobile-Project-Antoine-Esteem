@@ -9,6 +9,9 @@ import { FormControl } from '@angular/forms';
 import { DetailsPage } from '../details/details';
 import 'rxjs/add/operator/debounceTime';
 
+//providers
+import { AuthProvider } from '../../providers/auth/auth';
+import { UsersProvider } from '../../providers/users/users.provider';
 
 /**
  * Generated class for the IssueListPage page.
@@ -34,15 +37,16 @@ export class IssueListPage {
   totalPage = 1000;
 
   constructor(
-    public navCtrl: NavController, 
-    public navParams: NavParams, 
-    private issueProvider: IssuesProvider) {
-      
-      this.searchControl = new FormControl();
+    public navCtrl: NavController,
+    public navParams: NavParams,
+    private issueProvider: IssuesProvider,
+    private userProvider: UsersProvider) {
+    this.searchControl = new FormControl();
+    console.log(this.userProvider.getUsers())
   }
   //initial load
   loadIssues() {
-      this.issueProvider.getIssues(this.page).subscribe((issues) =>  {
+    this.issueProvider.getIssues(this.page).subscribe((issues) => {
       this.issues = issues;
       this.filteredIssues = issues;
     })
@@ -56,10 +60,10 @@ export class IssueListPage {
       this.searching = false;
       this.setFilteredIssues();
     });
-    
+
   }
 
-  onSearchInput(){
+  onSearchInput() {
     this.searching = true;
   }
 
@@ -67,7 +71,7 @@ export class IssueListPage {
     this.filteredIssues = this.filterIssues(this.searchTerm);
   }
 
-  filterIssues(searchTerm){
+  filterIssues(searchTerm) {
     console.log(searchTerm);
     if (searchTerm != '') {
       return this.issues.filter((issue) => {
@@ -79,10 +83,10 @@ export class IssueListPage {
   }
 
   doInfinite(infiniteScroll) {
-    this.page = this.page+1;
+    this.page = this.page + 1;
     setTimeout(() => {
-      this.issueProvider.getIssues(this.page).subscribe((newissues) =>  {
-        for(let i=0; i<newissues.length; i++) {
+      this.issueProvider.getIssues(this.page).subscribe((newissues) => {
+        for (let i = 0; i < newissues.length; i++) {
           this.filteredIssues.push(newissues[i]);
         }
       });
@@ -91,7 +95,7 @@ export class IssueListPage {
     }, 1000);
   }
 
-  goToDetails(issue:Issue) {
+  goToDetails(issue: Issue) {
     console.log("go to details")
     console.log(issue);
     this.navCtrl.push(DetailsPage, issue);
