@@ -28,7 +28,8 @@ You can also create issues.
 
 On the the issue list, you can push the "view" button and see the detailed issue on one pages in with you can put comments and see other peoples comments.
 
-You can access the in-app tutorial on the bottom of the list-issue page
+### In App Tutorial
+You can access the in-app tutorial on the bottom of the issue-list page
 
 <img src="https://github.com/est66/Application-Mobile-Project-Antoine-Esteem/blob/master/src/assets/imgs/tuto.PNG" width="30%" height="30%" title="Access Tutorial">
 
