@@ -27,3 +27,7 @@ You can also have a view of all the issues on a leaflet map. When you click on a
 You can also create issues.
 
 On the the issue list, you can push the "view" button and see the detailed issue on one pages in with you can put comments and see other peoples comments.
+
+### Autors
+
+Antoine Lot and Esteem Okoro
